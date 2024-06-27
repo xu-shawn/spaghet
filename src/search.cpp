@@ -319,7 +319,7 @@ int Searcher::negamax(int alpha, int beta, int depth, SearchStack *ss)
 
     // apply reverse futility pruning
     if (!inPV && !ss->exclude_tt_move && !board.is_in_check() && depth <= DEPTH_MARGIN && static_eval - depth * MARGIN >= beta)
-        return static_eval;
+        return beta <= MIN_MATE_SCORE ? static_eval : beta + (static_eval - beta) / 3;
 
     // bailout
     if (ss->ply >= MAX_PLY - 1)
